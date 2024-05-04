@@ -10,7 +10,7 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(
+        migrations.AddField(
             model_name='product',
             name='manufactured_at',
             field=models.DateTimeField(auto_now=True, verbose_name='Дата производства продукта'),
