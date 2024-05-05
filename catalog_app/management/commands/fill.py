@@ -30,7 +30,7 @@ class Command(BaseCommand):
                     name=f'Product#{i}',
                     description=f'This is description for product #{i}',
                     category_id=random.randint(min_id, max_id),
-                    purchase_price=random.random() * 1000
+                    price=random.random() * 1000
                 )
             )
 
