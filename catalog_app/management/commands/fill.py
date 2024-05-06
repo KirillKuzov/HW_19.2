@@ -1,37 +1,29 @@
-import random
-
+import json
 from django.core.management import BaseCommand
-
 from catalog_app.models import Category, Product
+
+db_json = 'catalog_data.json'
 
 
 class Command(BaseCommand):
-
     def handle(self, *args, **options):
-        category_list = []
-        for i in range(10):
-            category_list.append(
-                Category(
-                    name=f'Category#{i+1}',
-                    description=f'This is another category #{i+1}'
-                )
-            )
-
-        Category.objects.bulk_create(category_list)
-
-        category_id_list = list(Category.objects.all().values_list('id', flat=True))
-        max_id = max(category_id_list)
-        min_id = min(category_id_list)
-
-        product_list = []
-        for i in range(100):
-            product_list.append(
-                Product(
-                    name=f'Product#{i}',
-                    description=f'This is description for product #{i}',
-                    category_id=random.randint(min_id, max_id),
-                    price=random.random() * 1000
-                )
-            )
-
-        Product.objects.bulk_create(product_list)
+        Category.objects.all().delete()
+        Product.objects.all().delete()
+        with open(db_json, encoding='utf-8') as file:
+            data = json.load(file)
+            categories_to_create = []
+            products_to_create = []
+            for item in data:
+                model = item['model']
+                pk = item['pk']
+                fields = item['fields']
+                if model == 'catalog.category':
+                    category = Category(id=pk, **fields)
+                    categories_to_create.append(category)
+                elif model == 'catalog.product':
+                    category_id = fields.pop('category')
+                    fields['category_id'] = category_id
+                    product = Product(id=pk, **fields)
+                    products_to_create.append(product)
+            Category.objects.bulk_create(categories_to_create)
+            Product.objects.bulk_create(products_to_create)
