@@ -22,7 +22,7 @@ def contact(request):
 
 class CategoryProductListView(LoginRequiredMixin, ListView):
     model = Product
-    template_name = 'catalog/category_product_list.html'  # Замените на ваш шаблон
+    template_name = 'catalog/category_product_list.html'
     context_object_name = 'product_list'
 
     def get_queryset(self):
