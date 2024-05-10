@@ -15,8 +15,8 @@ class HomeListView(ListView):
 
 
 class ContactsView(View):
-    def __init__(self, **kwargs):
-        super().__init__(kwargs)
+    def __init__(self):
+        super().__init__()
         self.POST = None
         self.method = None
 
