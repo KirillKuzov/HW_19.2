@@ -1,5 +1,7 @@
 
 from django.shortcuts import render
+from django.views import View
+from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.generic import DetailView, ListView
 from catalog_app.models import Product, Category
 
@@ -12,18 +14,10 @@ class HomeListView(ListView):
     context_object_name = 'products'
 
 
-def home(request):
-    print("Главная страница")
-    return render(request, template_name='catalog_app/home.html')
-
-
-def contact(request):
-    if request.method == 'POST':
-        name = request.POST.get('name')
-        phone = request.POST.get('phone')
-        message = request.POST.get('message')
-        print(f'You have new message from {name}({phone}): {message}')
-    return render(request, 'catalog_app/contacts.html')
+class ContactsView(View):
+    @staticmethod
+    def get(request):
+        return render(request, 'catalog_app/contacts.html')
 
 
 class ProductDetailView(DetailView):
@@ -33,3 +27,15 @@ class ProductDetailView(DetailView):
 
 
 
+# def home(request):
+#     print("Главная страница")
+#     return render(request, template_name='catalog_app/home.html')
+#
+#
+# def contact(request):
+#     if request.method == 'POST':
+#         name = request.POST.get('name')
+#         phone = request.POST.get('phone')
+#         message = request.POST.get('message')
+#         print(f'You have new message from {name}({phone}): {message}')
+#     return render(request, 'catalog_app/contacts.html')
