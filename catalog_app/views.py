@@ -15,6 +15,11 @@ class HomeListView(ListView):
 
 
 class ContactsView(View):
+    def __init__(self, **kwargs):
+        super().__init__(kwargs)
+        self.POST = None
+        self.method = None
+
     @staticmethod
     def get(request):
         return render(request, 'catalog_app/contacts.html')
@@ -24,6 +29,9 @@ class ProductDetailView(DetailView):
     model = Product
     template_name = 'catalog_app/product_detail.html'
     context_object_name = 'product'
+
+
+
 
 
 
