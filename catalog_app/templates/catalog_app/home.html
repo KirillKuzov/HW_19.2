@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'catalog_app/base.html' %}
 
 {% load my_tags.py %}
 
@@ -13,7 +13,7 @@
             {% for product in products %}
                 <div class="col-3">
                     <div class="card mb-3">
-                        <img src="{{ product.image|media_url }}" class="card-img-top" alt="{{ product.name }}">
+                        <img src="{{ product.image|media_path }}" class="card-img-top" alt="{{ product.name }}">
                         <div class="card-body">
                             <h5 class="card-title">{{ product.name }}</h5>
                             <p class="card-text">{{ product.description|slice:":100" }}</p>
