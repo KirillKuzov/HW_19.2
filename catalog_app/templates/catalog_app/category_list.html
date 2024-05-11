@@ -1,4 +1,4 @@
-{% extends 'catalog/base.html' %}
+{% extends 'catalog_app/base.html' %}
 
 {% load my_tags %}
 
@@ -24,9 +24,9 @@
         <div class="container">
             <div class="container mt-4 mb-4">
                 {% if perms.catalog.add_product %}
-                <a href="{% url 'catalog:product_create' %}" class="btn btn-primary">Добавить товар</a>
+                <a href="{% url 'catalog_app:product_create' %}" class="btn btn-primary">Добавить товар</a>
                 {% endif %}
-                <a href="{% url 'catalog:category_products' object.pk %}" class="btn btn-primary">Отобразить товары</a>
+                <a href="{% url 'catalog_app:category_products' object.pk %}" class="btn btn-primary">Отобразить товары</a>
             </div>
         </div>
     </footer>
