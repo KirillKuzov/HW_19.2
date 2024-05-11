@@ -1,4 +1,4 @@
-{% extends 'catalog/base.html' %}
+{% extends 'catalog_app/base.html' %}
 
 {% load my_tags %}
 
@@ -6,7 +6,7 @@
 <h1 class="display-4" style="text-align: center;">Товары</h1>
 <div class="container">
     {% if perms.catalog.add_product %}
-    <a href="{% url 'catalog:product_create' %}" class="btn btn-primary mb-5">Добавить товар</a>
+    <a href="{% url 'catalog_app:product_create' %}" class="btn btn-primary mb-5">Добавить товар</a>
     {% endif %}
 </div>
 <div class="card mb-3" style="max-width: 100%;">
@@ -29,11 +29,11 @@
 
                 {% if object.owner == request.user or user.is_superuser or user.is_staff %}
                 {% if perms.catalog.view_product %}
-                <a href="{% url 'catalog:product' object.pk %}" class="btn btn-primary">Подробности</a>
+                <a href="{% url 'catalog_app:product' object.pk %}" class="btn btn-primary">Подробности</a>
                 {% endif %}
 
                 {% if perms.catalog.change_product %}
-                <a href="{% url 'catalog:product_update' object.pk %}" class="btn btn-primary">Изменить товар</a>
+                <a href="{% url 'catalog_app:product_update' object.pk %}" class="btn btn-primary">Изменить товар</a>
                 {% endif %}
 
                 {% for version in active_versions %}

@@ -1,4 +1,4 @@
-{% extends 'catalog/base.html' %}
+{% extends 'catalog_app/base.html' %}
 
 {% block content %}
 <form class="row" method="post" enctype="multipart/form-data">
@@ -21,7 +21,7 @@
                     Создать
                     {% endif %}
                 </button>
-                <a href="{% url 'catalog:index' %}" class="btn btn-primary">Отмена</a>
+                <a href="{% url 'catalog_app:index' %}" class="btn btn-primary">Отмена</a>
             </div>
             <div class="card-footer"></div>
         </div>
