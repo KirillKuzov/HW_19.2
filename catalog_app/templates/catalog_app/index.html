@@ -1,0 +1,41 @@
+{% extends 'catalog_app/base.html' %}
+{% load mytags%}
+{% load static %}
+{% block content %}
+
+<div class="album py-5 bg-light">
+        <div class="container">
+            <div class="button">
+                <p><a class="btn btn-secondary" href="{% url 'catalog_app:product_create' %}" role="button">Создать продукт &raquo;</a></p>
+                <div class="row">
+                    {% for object in object_list %}
+                        <div class="col-md-4">
+                            <div class="card mb-4 box-shadow">
+                                <img class="card-img-top" src="{% media_path object.image %}" alt="Изображение недоступно" width="304" height="228">
+                                <div class="card-body">
+                                    <p class="card-text">{{ object }}{{ object.category }}.</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        {% if user.is_authenticated %}
+                                         <div class="btn-group">
+                                                    <p><a class="btn btn-secondary" href="{% url 'catalog_app:product_detail' pk=object.id %}" role="button">Подробнее &raquo;</a></p>
+                                                    {% if perms.catalog.change_product %}
+                                                    <p><a class="btn btn-secondary" href="{% url 'catalog_app:product_update' object.id %}" role="button">Изменить &raquo;</a></p>
+                                                    {% endif %}
+                                                    {% if user.is_superuser %}
+                                                    <p><a class="btn btn-secondary" href="{% url 'catalog_app:product_delete' object.id %}" role="button">Удалить &raquo;</a></p>
+                                                    {% endif %}
+                                                </div>
+                                        {% else %}
+
+                                        {% endif %}
+                                        <small class="text-muted">{{ object.creat_date}}</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>>
+        </div>
+</div>
+{% endblock %}
