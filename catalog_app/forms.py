@@ -1,7 +1,7 @@
 from django import forms
 
 from catalog_app.models import Product, Version
-from common.views import StyleFormMixin
+from catalog_app.common.views import StyleFormMixin
 
 
 class ProductForm(StyleFormMixin):
