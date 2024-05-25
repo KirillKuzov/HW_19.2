@@ -1,4 +1,4 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.forms import inlineformset_factory
 from django.http import Http404
 from django.shortcuts import render
@@ -40,39 +40,26 @@ class ProductDetailView(DetailView):
     context_object_name = 'product'
 
 
-class ProductCreateView(LoginRequiredMixin, generic.CreateView):
+class ProductCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy('catalog_app:index')
+    login_url = 'users:login'
+
+    permission_required = 'catalog_app.add_product'
+
+    extra_context = {
+        'title': 'Добавление товара'
+    }
+
+    def __init__(self, **kwargs):
+        super().__init__(kwargs)
+        self.object = None
 
     def form_valid(self, form):
         self.object = form.save()
-        self.object.owner=self.request.user
+        self.object.owner = self.request.user
         self.object.save()
-
-        return super().form_valid(form)
-
-
-    def get_context_data(self, **kwargs):
-        context_data = super().get_context_data(**kwargs)
-        VersionFormset = inlineformset_factory(Product, Version, form=VersionForm, extra=1)
-        if self.request.method == 'POST':
-            formset = VersionFormset(self.request.POST)
-        else:
-            formset = VersionFormset()
-
-        context_data['formset'] = formset
-
-        return context_data
-
-    def form_valid(self, form):
-        context_data = self.get_context_data()
-        formset = self.get_context_data()['formset']
-        self.object = form.save()
-
-        if formset.is_valid():
-            formset.instance = self.object
-            formset.save()
 
         return super().form_valid(form)
 
