@@ -15,7 +15,7 @@ from catalog_app.models import Product
 
 class HomeListView(ListView):
     model = Product
-    template_name = 'catalog_app/home.html'
+    template_name = 'catalog/home.html'
     context_object_name = 'product'
 
 
@@ -31,30 +31,25 @@ class ContactsView(View):
 
     @staticmethod
     def get(request):
-        return render(request, 'catalog_app/contacts.html')
+        return render(request, 'catalog/contacts.html')
 
 
 class ProductDetailView(DetailView):
     model = Product
-    template_name = 'catalog_app/product_detail.html'
+    template_name = 'catalog/product_detail.html'
     context_object_name = 'product'
 
 
-class ProductCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+class ProductCreateView(CreateView):
     model = Product
     form_class = ProductForm
-    success_url = reverse_lazy('catalog_app:index')
-    login_url = 'users:login'
+    success_url = reverse_lazy('catalog:home')
 
-    permission_required = 'catalog_app.add_product'
+    permission_required = 'catalog.add_product'
 
     extra_context = {
         'title': 'Добавление товара'
     }
-
-    def __init__(self, **kwargs):
-        super().__init__(kwargs)
-        self.object = None
 
     def form_valid(self, form):
         self.object = form.save()
@@ -64,10 +59,10 @@ class ProductCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView)
         return super().form_valid(form)
 
 
-class ProductUpdateView(LoginRequiredMixin, generic.UpdateView):
+class ProductUpdateView(generic.UpdateView):
     model = Product
     form_class = ProductForm
-    success_url = reverse_lazy('catalog_app:index')
+    success_url = reverse_lazy('catalog:home')
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
