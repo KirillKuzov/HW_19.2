@@ -31,19 +31,19 @@ class ContactsView(View):
 
     @staticmethod
     def get(request):
-        return render(request, 'catalog/contacts.html')
+        return render(request, 'catalog_app/contacts.html')
 
 
 class ProductDetailView(DetailView):
     model = Product
-    template_name = 'catalog/product_detail.html'
+    template_name = 'catalog_app/product_detail.html'
     context_object_name = 'product'
 
 
 class ProductCreateView(CreateView):
     model = Product
     form_class = ProductForm
-    success_url = reverse_lazy('catalog:home')
+    success_url = reverse_lazy('catalog_app:home')
 
     permission_required = 'catalog.add_product'
 
@@ -62,7 +62,7 @@ class ProductCreateView(CreateView):
 class ProductUpdateView(generic.UpdateView):
     model = Product
     form_class = ProductForm
-    success_url = reverse_lazy('catalog:home')
+    success_url = reverse_lazy('catalog_app:home')
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
@@ -87,11 +87,11 @@ class ProductUpdateView(generic.UpdateView):
 
         return super().form_valid(form)
 
-    def get_object(self, queryset=None):
-        object = super().get_object(queryset)
-        if object.owner != self.request.user:
-            raise Http404("Вы не являетесь владельцем продукта.")
-        return object
+    # def get_object(self, queryset=None):
+    #     object = super().get_object(queryset)
+    #     if object.owner != self.request.user:
+    #         raise Http404("Вы не являетесь владельцем продукта.")
+    #     return object
 
 
 class ProductDeleteView(DeleteView):
