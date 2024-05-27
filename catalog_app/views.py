@@ -21,6 +21,23 @@ class HomeListView(ListView):
 
 class ProductListView(generic.ListView):
     model = Product
+    template_name = 'catalog_app/product_list.html'
+    context_object_name = 'product_list'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        active_version = Version.objects.filter(sign_ver='active')
+        context['title'] = 'Все продукты'
+
+        for product in context['object_list']:
+            version = active_version.filter(product=product)
+            if version:
+                product.version = {
+                    'name_ver': version[0].name_ver,
+                    'number_ver': version[0].number_ver
+                }
+
+        return context
 
 
 class ContactsView(View):
@@ -96,4 +113,4 @@ class ProductUpdateView(generic.UpdateView):
 
 class ProductDeleteView(DeleteView):
     model = Product
-    success_url = reverse_lazy('product:product_list')
+    success_url = reverse_lazy('catalog_app:product')
