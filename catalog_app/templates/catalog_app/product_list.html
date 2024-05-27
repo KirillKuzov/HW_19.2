@@ -13,7 +13,7 @@
     {% for object in object_list %}
     <div class="row g-0">
         <div class="col-md-4">
-            <img src="{% media_tag object.image %}" class="img-fluid rounded-start" alt="Image">
+            <img src="{% media_tag object.picture %}" class="img-fluid rounded-start" alt="Image">
         </div>
         <div class="col-md-8">
             <div class="card-body">
@@ -39,7 +39,6 @@
                         {% if version.product_id == object.pk %}
                             <p style="font-weight: bold; color: red;">Активная версия:
                                 {{ version.version_number }} - {{ version.version_name }}</p>
-                        {% endif %}
                     {% endfor %}
 
                 {% endif %}
