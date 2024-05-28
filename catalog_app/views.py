@@ -13,12 +13,6 @@ from catalog_app.models import Product, Category, Version
 from catalog_app.models import Product
 
 
-class HomeListView(ListView):
-    model = Product
-    template_name = 'catalog/home.html'
-    context_object_name = 'product'
-
-
 class ProductListView(generic.ListView):
     model = Product
     template_name = 'catalog_app/product_list.html'
@@ -26,26 +20,19 @@ class ProductListView(generic.ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        active_version = Version.objects.filter(sign_ver='active')
+        active_version = Version.objects.filter(version_is_active='active')
         context['title'] = 'Все продукты'
 
+        active_versions = []
         for product in context['object_list']:
             version = active_version.filter(product=product)
             if version:
-                product.version = {
-                    'name_ver': version[0].name_ver,
-                    'number_ver': version[0].number_ver
-                }
-
+                active_version.append(version[0])
+        context["active_versions"] = active_versions
         return context
 
 
 class ContactsView(View):
-    def __init__(self):
-        super().__init__()
-        self.POST = None
-        self.method = None
-
     @staticmethod
     def get(request):
         return render(request, 'catalog_app/contacts.html')
@@ -113,4 +100,4 @@ class ProductUpdateView(generic.UpdateView):
 
 class ProductDeleteView(DeleteView):
     model = Product
-    success_url = reverse_lazy('catalog_app:product')
+    success_url = reverse_lazy('catalog_app:home')
