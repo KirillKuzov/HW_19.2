@@ -36,12 +36,11 @@
                 {% endif %}
 
                 {% for version in active_versions %}
-                        {% if version.product == object.pk %}
+                        {% if version.product == object %}
                             <p style="font-weight: bold; color: red;">Активная версия:
                                 {{ version.version_number }} - {{ version.version_title }}</p>
                     {% endif %}
-                {% endfor %
-
+                {% endfor %}
             </div>
         </div>
     </footer>

@@ -20,14 +20,14 @@ class ProductListView(generic.ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        active_version = Version.objects.filter(version_is_active='active')
+        active_version = Version.objects.filter(version_is_active=True)
         context['title'] = 'Все продукты'
 
         active_versions = []
         for product in context['object_list']:
             version = active_version.filter(product=product)
             if version:
-                active_version.append(version[0])
+                active_versions.append(version[0])
         context["active_versions"] = active_versions
         return context
 
