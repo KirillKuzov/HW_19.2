@@ -25,7 +25,6 @@
     <footer class="text-muted">
         <div class="container">
             <div class="container mt-4 mb-4">
-
                 {% if object.owner == request.user or user.is_superuser or user.is_staff %}
                 {% if perms.catalog.view_product %}
                 <a href="{% url 'catalog_app:product_detail' object.pk %}" class="btn btn-primary">Подробности</a>
